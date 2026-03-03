@@ -8,10 +8,13 @@ use App\Application\Ports\ReceiptPresenter;
 use App\Domain\Order\OrderItem;
 use App\Domain\Order\Receipt;
 
+// ReceiptPresenterのJSON向け実装。
+// ドメインオブジェクトをAPIレスポンス配列へ変換する。
 class JsonReceiptPresenter implements ReceiptPresenter
 {
     public function present(Receipt $receipt): array
     {
+        // 明細ごとの表示データを作成
         $items = array_map(
             fn (OrderItem $item): array => [
                 'product_id' => $item->productId(),

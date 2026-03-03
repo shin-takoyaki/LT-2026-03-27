@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Order;
 
+// レシート（明細一覧 + 合計金額）を表すドメインオブジェクト。
 final class Receipt
 {
     /** @var OrderItem[] */

@@ -7,6 +7,8 @@ namespace App\Infrastructure\Payment;
 use App\Application\Ports\PaymentGateway;
 use App\Domain\Order\Money;
 
+// PaymentGatewayのダミー実装。
+// 学習用サンプルなので外部決済は呼び出さない。
 class FakePaymentGateway implements PaymentGateway
 {
     public function charge(Money $amount): void

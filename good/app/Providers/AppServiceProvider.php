@@ -14,10 +14,12 @@ use App\Infrastructure\Payment\FakePaymentGateway;
 use App\Infrastructure\Presenters\JsonReceiptPresenter;
 use Illuminate\Support\ServiceProvider;
 
+// DIコンテナへ「interface -> 実装クラス」を登録する。
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        // UseCaseはinterface型で依存し、実体はここで差し替える。
         $this->app->bind(ProductRepository::class, EloquentProductRepository::class);
         $this->app->bind(OrderRepository::class, EloquentOrderRepository::class);
         $this->app->bind(PaymentGateway::class, FakePaymentGateway::class);

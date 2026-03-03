@@ -9,6 +9,8 @@ use App\Domain\Order\Money;
 use App\Domain\Order\OrderItem;
 use App\Models\Product;
 
+// ProductRepositoryのEloquent実装。
+// DBレコードをドメインのOrderItemへ変換する。
 class EloquentProductRepository implements ProductRepository
 {
     public function findItemsByIds(array $productIds): array
@@ -17,6 +19,7 @@ class EloquentProductRepository implements ProductRepository
 
         $items = [];
         foreach ($products as $p) {
+            // 取得した1商品をドメイン明細へマッピング。
             $items[] = new OrderItem(
                 (int) $p->id,
                 (string) $p->name,
