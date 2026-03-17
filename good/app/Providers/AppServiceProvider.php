@@ -10,6 +10,7 @@ use App\Application\Ports\ProductRepository;
 use App\Application\Ports\ReceiptPresenter;
 use App\Infrastructure\Eloquent\EloquentOrderRepository;
 use App\Infrastructure\Eloquent\EloquentProductRepository;
+use App\Infrastructure\InMemory\InMemoryProductRepository;
 use App\Infrastructure\Payment\FakePaymentGateway;
 use App\Infrastructure\Presenters\JsonReceiptPresenter;
 use Illuminate\Support\ServiceProvider;
@@ -20,7 +21,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // UseCaseはinterface型で依存し、実体はここで差し替える。
-        $this->app->bind(ProductRepository::class, EloquentProductRepository::class);
+        $productRepository = $this->app->environment(['local', 'development'])
+            ? InMemoryProductRepository::class
+            : EloquentProductRepository::class;
+
+        $this->app->bind(ProductRepository::class, $productRepository);
         $this->app->bind(OrderRepository::class, EloquentOrderRepository::class);
         $this->app->bind(PaymentGateway::class, FakePaymentGateway::class);
         $this->app->bind(ReceiptPresenter::class, JsonReceiptPresenter::class);
